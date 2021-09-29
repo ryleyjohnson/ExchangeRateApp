@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ExchangeRateApp:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ExchangeRateApp_jar</output-path>
+    <root id="archive" name="ExchangeRateApp.jar">
+      <element id="module-output" name="ExchangeRateApp" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../jackson-annotations-2.13.0-rc1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../jackson-databind-2.13.0-rc1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../jackson-core-2.13.0-rc1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
