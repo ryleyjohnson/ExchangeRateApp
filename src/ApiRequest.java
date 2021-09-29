@@ -18,24 +18,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiRequest {
 
+    static final String _API_URI = "http://data.fixer.io/api/latest?access_key=d1a4bce59676611d5fbd3174625efa19";
 
 
-    public static Object pullData(){
+    public static Object pullData() {
 
         //pulls data from fixer.io server and returns the contents from the parser.
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://data.fixer.io/api/latest?access_key=d1a4bce59676611d5fbd3174625efa19")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(_API_URI)).build();
         HttpClient client = HttpClient.newHttpClient();
 
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenApply(ApiRequest::parse)
                 .join();
-
-
     }
 
-    public static Object parse(String responseBody){
+
+    public static Object parse(String responseBody) {
 
         //Parses the API data to a map and returns it.
 
@@ -44,15 +44,15 @@ public class ApiRequest {
         try {
 
             // convert JSON string to Map
-            map = mapper.readValue(responseBody, Map.class);
 
+            map = mapper.readValue(responseBody, Map.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return map;
     }
-
+}
 
     /*saved for future use  ... is probably broken
     public static void fileWrite(Object map){
@@ -91,4 +91,4 @@ public class ApiRequest {
         }
     } */
 
-}
+

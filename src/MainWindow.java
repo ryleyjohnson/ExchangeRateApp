@@ -22,12 +22,11 @@ public class MainWindow {
 
     public static void createWindow(){
 
-        JFrame mainWindow = new JFrame("Currency Calculator");
+        JFrame mainWindow = new JFrame("Currency Exchange Calculator");
         mainWindow.setContentPane(new MainWindow().panelMain);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.pack();
         mainWindow.setVisible(true);
-
     }
 
 
@@ -35,22 +34,22 @@ public class MainWindow {
 
         //calculates the exchange rate and returns the final value.
 
-        double inputRate = (double) dataStorage.getMap2().get(inputKey);
-        double outputRate = (double) dataStorage.getMap2().get(outputKey);
+        double inputRate = (double) dataStorage.getInnerExchangeRateMap().get(inputKey);
+        double outputRate = (double) dataStorage.getInnerExchangeRateMap().get(outputKey);
         double exchangeRate = outputRate / inputRate;
         double outputValue =  inputValue * exchangeRate;
         return Math.round(outputValue*100.0)/100.0;
     }
 
+
     public MainWindow() {
 
         //Populates the combo boxes with key values.
-        for(Map.Entry entry: dataStorage.getMap2().entrySet()){
+        for(Map.Entry entry: dataStorage.getInnerExchangeRateMap().entrySet()){
             Object Items = entry.getKey();
             inputCurrencyTypeComboBox.addItem(Items);
             outputCurrencyTypeComboBox.addItem(Items);
         }
-
 
 
         okayButton.addActionListener(new ActionListener() {
@@ -68,22 +67,18 @@ public class MainWindow {
             }
         });
 
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 //Resets all fields.
 
-                inputText1.setText(" ");
-                outputLabel.setText(" ");
+                inputText1.setText("");
+                outputLabel.setText("");
                 inputCurrencyTypeComboBox.setSelectedIndex(0);
                 outputCurrencyTypeComboBox.setSelectedIndex(0);
             }
         });
-
     }
-
-
-
-
 }
