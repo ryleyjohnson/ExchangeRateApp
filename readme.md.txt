@@ -1,1 +1,0 @@
-Author: Ryley Neil Johnson
