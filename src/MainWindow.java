@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class MainWindow {
 
-    DataStorage dataStorage =  new DataStorage();
+    CurrencyExchangeDataStorage currencyExchangeDataStorage =  new CurrencyExchangeDataStorage();
 
     private JButton okayButton;
     private JButton clearButton;
@@ -30,55 +30,55 @@ public class MainWindow {
     }
 
 
-    public double calculateRate(double inputValue , Object inputKey , Object outputKey){
+    public void fillRateDataStorage(){
 
-        //calculates the exchange rate and returns the final value.
+        //Populates the combo boxes with key values on launch.
+        for(Map.Entry entry: currencyExchangeDataStorage.getInnerExchangeRateMap().entrySet()){
+            Object Items = entry.getKey();
+            inputCurrencyTypeComboBox.addItem(Items);
+            outputCurrencyTypeComboBox.addItem(Items);
+        }
+    }
 
-        double inputRate = (double) dataStorage.getInnerExchangeRateMap().get(inputKey);
-        double outputRate = (double) dataStorage.getInnerExchangeRateMap().get(outputKey);
-        double exchangeRate = outputRate / inputRate;
-        double outputValue =  inputValue * exchangeRate;
-        return Math.round(outputValue*100.0)/100.0;
+
+    public double changeInputToExchangeRate(){
+
+        double inputValue = Double.parseDouble(inputText1.getText());
+        Object inputKey = inputCurrencyTypeComboBox.getSelectedItem() ;
+        Object outputKey = outputCurrencyTypeComboBox.getSelectedItem();
+        double inputRate = (double) currencyExchangeDataStorage.getInnerExchangeRateMap().get(inputKey);
+        double outputRate = (double) currencyExchangeDataStorage.getInnerExchangeRateMap().get(outputKey);
+
+        double outputCalculation = ExchangeRateMath.calculateRate(inputValue,inputRate,outputRate);
+
+        return outputCalculation;
+
     }
 
 
     public MainWindow() {
 
-        //Populates the combo boxes with key values.
-        for(Map.Entry entry: dataStorage.getInnerExchangeRateMap().entrySet()){
-            Object Items = entry.getKey();
-            inputCurrencyTypeComboBox.addItem(Items);
-            outputCurrencyTypeComboBox.addItem(Items);
-        }
+        fillRateDataStorage();
 
 
-        okayButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        okayButton.addActionListener(eventListenerOkayButton -> {
 
-                //Attempts to calculate a response with the user's input, and will tell them to input a valid amount if it fails.
-
-                try {
-                    double outputPull = calculateRate(Double.parseDouble(inputText1.getText()), inputCurrencyTypeComboBox.getSelectedItem(), outputCurrencyTypeComboBox.getSelectedItem());
-                    outputLabel.setText(String.valueOf(outputPull));
-                }catch(Exception f) {
-                    outputLabel.setText("Invalid input. Please enter a proper amount.");
-                }
+            //Attempts to calculate a response with the user's input, and will tell them to input a valid amount if it fails.
+            try {
+                outputLabel.setText(String.valueOf(changeInputToExchangeRate()));
+            }catch(Exception exceptionNoInput) {
+                outputLabel.setText("Invalid input. Please enter a proper amount.");
             }
         });
 
 
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        clearButton.addActionListener(eventListenerClearButton -> {
 
-                //Resets all fields.
-
-                inputText1.setText("");
-                outputLabel.setText("");
-                inputCurrencyTypeComboBox.setSelectedIndex(0);
-                outputCurrencyTypeComboBox.setSelectedIndex(0);
-            }
+            //Resets all fields.
+            inputText1.setText("");
+            outputLabel.setText("");
+            inputCurrencyTypeComboBox.setSelectedIndex(0);
+            outputCurrencyTypeComboBox.setSelectedIndex(0);
         });
     }
 }

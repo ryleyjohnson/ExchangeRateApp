@@ -1,12 +1,12 @@
 import java.util.Map;
 
-public class DataStorage {
+public class CurrencyExchangeDataStorage {
 
     private Map<String, Object> outerExchangeRateMap;
     private Map<String, Object> innerExchangeRateMap;
 
 
-    DataStorage() {
+    CurrencyExchangeDataStorage() {
         ApiRequest fileBuild = new ApiRequest();
         outerExchangeRateMap = (Map<String, Object>) fileBuild.pullData();
         innerExchangeRateMap = (Map<String, Object>) outerExchangeRateMap.get("rates");

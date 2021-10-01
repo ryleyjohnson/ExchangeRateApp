@@ -1,0 +1,7 @@
+        CurrencyExchangeDataStorage currencyExchangeDataStorage =  new CurrencyExchangeDataStorage();
+        double inputValue = 1;
+        Object inputKey = "EUR" ;
+        Object outputKey = "EUR";
+        double inputRate = (double) currencyExchangeDataStorage.getInnerExchangeRateMap().get(inputKey);
+        double outputRate = (double) currencyExchangeDataStorage.getInnerExchangeRateMap().get(outputKey);
+        double outputPull = ExchangeRateMath.calculateRate(inputValue,inputRate,outputRate);
